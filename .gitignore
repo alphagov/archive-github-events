@@ -1,3 +1,17 @@
+lambda.zip
+
+# Created by https://www.gitignore.io/api/terraform
+
+### Terraform ###
+# Terraform - https://terraform.io/
+.terraform
+terraform.tfstate
+terraform.tfstate.backup
+*.tfvars
+
+### Terraform Patch ###
+# End of https://www.gitignore.io/api/terraform
+
 .DS_Store
 
 # Created by https://www.gitignore.io/api/python
