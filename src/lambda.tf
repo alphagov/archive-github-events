@@ -30,12 +30,6 @@ resource "aws_lambda_function" "archive_github_events" {
   }
 }
 
-resource "aws_lambda_alias" "latest" {
-  name             = "latest"
-  function_name    = "${aws_lambda_function.archive_github_events.function_name}"
-  function_version = "$LATEST"
-}
-
 data "aws_iam_policy_document" "write_github_events_policy_doc" {
   statement {
     sid = "WriteOnlyAccess"

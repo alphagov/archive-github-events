@@ -47,7 +47,7 @@ resource "aws_api_gateway_method_response" "200" {
 }
 
 resource "aws_lambda_permission" "allow_api_gateway" {
-  statement_id   = "AllowExecutionFromAPIGateway"
+  statement_id   = "AllowAPIGateway"
   action         = "lambda:InvokeFunction"
   function_name  = "${aws_lambda_function.archive_github_events.function_name}"
   principal      = "apigateway.amazonaws.com"
