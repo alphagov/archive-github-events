@@ -22,6 +22,8 @@ resource "aws_lambda_function" "archive_github_events" {
   runtime = "python3.6"
   source_code_hash = "${base64sha256(file("${data.archive_file.lambda.output_path}"))}"
   publish = true
+  timeout = 10
+  memory_size = 192
   environment {
     variables = {
       GITHUB_SECRET  = "${var.github_secret}"
@@ -74,4 +76,3 @@ resource "aws_iam_role" "github_archivist" {
   name = "github_archivist"
   assume_role_policy = "${data.aws_iam_policy_document.lambda_assume_role.json}"
 }
-

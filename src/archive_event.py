@@ -35,6 +35,28 @@ def lambda_handler(event, context):
     github_signature = event['headers']['X-Hub-Signature']
     if validate_signature(body.encode('utf8'), github_signature):
         logger.info("Successfully validated MAC")
+
+        try:
+            bodyObj = json.loads(body)
+            bodyObj["timestamp"] = int(datetime.now().timestamp())
+
+            # remove excessive urls
+            for main in ["repository", "organization", "sender"]:
+                keys_to_remove = []
+                if main in bodyObj:
+                    for key in bodyObj[main]:
+                        if key.endswith("_url"):
+                            keys_to_remove.append(key)
+                for key in keys_to_remove:
+                    bodyObj[main].pop(key)
+
+            bodyStr = json.dumps(bodyObj)
+        except:
+            logger.error("JSON body parsing failure.")
+        finally:
+            logger.info("Successfully updated the JSON.")
+            body = bodyStr
+
         s3.Object(BUCKET_NAME, s3_key_name(event)).put(Body=body)
         return {
             'statusCode': 200,
